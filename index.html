@@ -106,7 +106,7 @@
             </div>
           </div>
         </div>
-        <form class="contact-form" action="#" method="post">
+        <form class="contact-form" action="/api/brevo-contact" method="post" data-brevo-form>
           <label>
             Nome
             <input type="text" name="nome" placeholder="O seu nome" required />
@@ -124,6 +124,7 @@
             <textarea name="mensagem" rows="4" placeholder="Diga-nos o que procura"></textarea>
           </label>
           <button type="submit" class="button button-primary">Solicitar informação privada</button>
+          <p class="form-status" data-form-status data-state="idle" aria-live="polite"></p>
         </form>
       </div>
     </section>
@@ -138,5 +139,6 @@
       </div>
     </div>
   </footer>
+  <script src="brevo-form.js"></script>
 </body>
 </html>
