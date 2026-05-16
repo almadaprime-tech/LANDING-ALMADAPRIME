@@ -1,0 +1,40 @@
+/* Almada Prime — Brand CSS
+   Paleta, tipografia e utilitários para identidade luxuosa
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --ap-black: #070609; /* quase preto profundo */
+  --ap-charcoal: #0f1418;
+  --ap-gold: #CBB67A; /* dourado subtil */
+  --ap-gold-deep: #A9893B; /* dourado para contraste */
+  --ap-gold-soft: rgba(203,182,122,0.12);
+  --ap-muted: #9ea7b3;
+  --ap-white: #F7F7F6;
+
+  --brand-heading: 'Playfair Display', serif;
+  --brand-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Typography */
+.h1 { font-family: var(--brand-heading); font-weight:700; font-size:2.8rem; color:var(--ap-white); }
+.h2 { font-family: var(--brand-heading); font-weight:600; font-size:1.8rem; color:var(--ap-white); }
+.body { font-family: var(--brand-body); font-size:1rem; color:var(--ap-white); }
+.muted { color: var(--ap-muted); }
+
+/* Utilities */
+.bg-brand { background: linear-gradient(180deg, var(--ap-black), var(--ap-charcoal)); }
+.card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)); border-radius:18px; padding:1.25rem; border:1px solid rgba(255,255,255,0.05); }
+.btn-gold { background: linear-gradient(90deg,var(--ap-gold),var(--ap-gold-deep)); color:var(--ap-black); padding:0.9rem 1.6rem; border-radius:999px; font-weight:600; display:inline-block; }
+
+/* Logo helper */
+.brand-logo { display:inline-flex; align-items:center; gap:0.75rem; }
+.brand-mark { width:56px; height:56px; display:inline-grid; place-items:center; border-radius:12px; background:linear-gradient(180deg,var(--ap-black),var(--ap-charcoal)); box-shadow: 0 12px 30px rgba(4,4,6,0.6); }
+.brand-word { font-family: var(--brand-heading); font-size:1.05rem; letter-spacing:0.08em; color:var(--ap-gold); font-weight:700; }
+
+/* Small print for print and web */
+.logo-svg { width:100%; height:auto; }
+
+/* Accessibility: high contrast focus */
+:focus { outline: 3px solid var(--ap-gold-soft); outline-offset: 2px; }

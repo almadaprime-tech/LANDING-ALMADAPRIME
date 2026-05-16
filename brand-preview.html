@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Almada Prime — Brand Preview</title>
+  <link rel="stylesheet" href="brand.css">
+  <style>
+    body{ margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#050608 0%, #0b0f12 100%); padding:3rem; }
+    .preview{ width:100%; max-width:1100px; display:grid; grid-template-columns: 1fr 420px; gap:2rem; align-items:start; }
+    .hero { padding:2.4rem; border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)); }
+    .mark{ display:flex; align-items:center; gap:1rem; }
+    .show-logo{ width:86px; height:86px; border-radius:12px; display:grid; place-items:center; background:linear-gradient(180deg,#070609,#0f1418); box-shadow: 0 18px 38px rgba(2,2,6,0.6); }
+    .meta{ margin-top:1.25rem; color:var(--ap-muted); }
+  </style>
+</head>
+<body>
+  <div class="preview">
+    <div class="hero card">
+      <div class="mark">
+        <div class="show-logo">
+          <img src="logo.svg" alt="Almada Prime" style="width:68px; height:68px;" />
+        </div>
+        <div>
+          <div class="h1">Almada Prime</div>
+          <div class="muted">Imobiliária Premium — Lisboa & Dubai</div>
+        </div>
+      </div>
+      <h2 class="h2" style="margin-top:1.6rem;">Identidade Luxuosa</h2>
+      <p class="body meta">Paleta: preto profundo, dourado subtil e acentos sóbrios. Tipografia com serif elegante nas headings e sans moderna no corpo — equilíbrio entre tradição e sofisticação contemporânea.</p>
+      <div style="margin-top:1.6rem; display:flex; gap:1rem;">
+        <a class="btn-gold" href="#">Contactar</a>
+        <a class="button button-secondary" href="#">Portfólio</a>
+      </div>
+    </div>
+
+    <aside class="card">
+      <h3 class="h2">Paleta</h3>
+      <ul style="list-style:none; padding:0; margin:1rem 0 0; display:grid; gap:0.8rem;">
+        <li style="display:flex; gap:0.8rem; align-items:center;"><span style="width:56px;height:36px;background:var(--ap-black);border-radius:8px;border:1px solid rgba(255,255,255,0.04);"></span><strong class="muted">--ap-black</strong><span style="margin-left:auto;color:var(--ap-muted);">#070609</span></li>
+        <li style="display:flex; gap:0.8rem; align-items:center;"><span style="width:56px;height:36px;background:linear-gradient(90deg,#E9DCB1,#B89245);border-radius:8px;"></span><strong class="muted">--ap-gold</strong><span style="margin-left:auto;color:var(--ap-muted);">#CBB67A</span></li>
+        <li style="display:flex; gap:0.8rem; align-items:center;"><span style="width:56px;height:36px;background:var(--ap-gold-soft);border-radius:8px;"></span><strong class="muted">--ap-gold-soft</strong><span style="margin-left:auto;color:var(--ap-muted);">rgba(203,182,122,0.12)</span></li>
+      </ul>
+
+      <h3 class="h2" style="margin-top:1.4rem;">Tipografia</h3>
+      <p class="body muted">Headings: Playfair Display<br>Corpo: Inter</p>
+
+      <h3 class="h2" style="margin-top:1.4rem;">Uso</h3>
+      <p class="body muted">Usar dourado para CTAs e detalhes; manter fundos escuros para destaque e sentido de exclusividade.</p>
+    </aside>
+  </div>
+</body>
+</html>
