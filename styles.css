@@ -291,6 +291,60 @@ textarea {
   font-size: 1.45rem;
 }
 
+.advisor {
+  padding: 5rem 0;
+  background:
+    linear-gradient(135deg, rgba(127, 160, 164, 0.08), transparent 38%),
+    linear-gradient(180deg, rgba(7, 6, 9, 0.98), rgba(13, 19, 19, 0.98));
+}
+
+.advisor-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.advisor h2 {
+  max-width: 520px;
+  font-family: var(--heading);
+  font-size: 3.7rem;
+  line-height: 0.98;
+  margin: 1rem 0 0;
+}
+
+.advisor-copy {
+  display: grid;
+  gap: 1.25rem;
+  padding-left: 2rem;
+  border-left: 1px solid rgba(203, 182, 122, 0.2);
+}
+
+.advisor-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.04rem;
+  line-height: 1.82;
+}
+
+.advisor-signature {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.8rem;
+}
+
+.advisor-signature span {
+  border: 1px solid rgba(203, 182, 122, 0.22);
+  border-radius: 8px;
+  color: #f2e5bd;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 0.65rem 0.8rem;
+  text-transform: uppercase;
+}
+
 .contact {
   padding: 4.5rem 0 5rem;
 }
@@ -331,35 +385,55 @@ textarea {
 
 .contact-form {
   display: grid;
-  gap: 1rem;
-  padding: 2rem;
+  gap: 1.45rem;
+  padding: 2.4rem;
   border-radius: 8px;
-  background: rgba(247, 242, 231, 0.035);
-  border: 1px solid rgba(203, 182, 122, 0.15);
+  background: linear-gradient(180deg, rgba(247, 242, 231, 0.045), rgba(7, 6, 9, 0.18));
+  border: 1px solid rgba(203, 182, 122, 0.18);
   box-shadow: var(--shadow);
 }
 
 .contact-form label {
   display: grid;
-  gap: 0.65rem;
-  font-size: 0.95rem;
-  color: #e7dfcc;
+  gap: 0.55rem;
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-  background: rgba(7, 6, 9, 0.44);
-  border: 1px solid rgba(247, 242, 231, 0.14);
-  border-radius: 8px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(247, 242, 231, 0.24);
+  border-radius: 0;
   color: var(--text);
-  padding: 1rem 1.1rem;
+  padding: 0.55rem 0 0.85rem;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 7.5rem;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(196, 190, 177, 0.58);
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  outline: 1px solid rgba(203, 182, 122, 0.72);
-  box-shadow: 0 0 0 4px rgba(203, 182, 122, 0.12);
+  border-bottom-color: var(--accent);
+  outline: 0;
+  box-shadow: 0 1px 0 var(--accent);
+}
+
+.contact-form .button {
+  margin-top: 0.3rem;
+  width: fit-content;
 }
 
 .site-footer {
@@ -397,8 +471,18 @@ textarea {
 
   .hero-grid,
   .contact-grid,
-  .cards-grid {
+  .cards-grid,
+  .advisor-grid {
     grid-template-columns: 1fr;
+  }
+
+  .advisor-grid {
+    gap: 2rem;
+  }
+
+  .advisor-copy {
+    padding-left: 0;
+    border-left: 0;
   }
 
   .hero {
@@ -411,7 +495,8 @@ textarea {
   }
 
   .section-header h2,
-  .contact-info h2 {
+  .contact-info h2,
+  .advisor h2 {
     font-size: 3.1rem;
   }
 }
@@ -419,11 +504,24 @@ textarea {
 @media (max-width: 600px) {
   .hero h1,
   .section-header h2,
-  .contact-info h2 {
+  .contact-info h2,
+  .advisor h2 {
     font-size: 2.65rem;
   }
 
+  .advisor {
+    padding: 3.5rem 0;
+  }
+
   .button {
+    width: 100%;
+  }
+
+  .contact-form {
+    padding: 1.5rem;
+  }
+
+  .contact-form .button {
     width: 100%;
   }
 
