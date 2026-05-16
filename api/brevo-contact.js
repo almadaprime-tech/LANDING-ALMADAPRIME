@@ -29,7 +29,7 @@ const parseBody = (body) => {
 
 const buildAttributes = ({ nome, telefone, mensagem }) => {
   const attributes = {};
-  const nameAttribute = process.env.BREVO_NAME_ATTRIBUTE || "FIRSTNAME";
+  const nameAttribute = process.env.BREVO_NAME_ATTRIBUTE || "NOME";
   const phoneAttribute = process.env.BREVO_PHONE_ATTRIBUTE || "TELEFONE";
   const messageAttribute = process.env.BREVO_MESSAGE_ATTRIBUTE || "MESSAGE";
 
