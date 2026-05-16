@@ -10,7 +10,7 @@ Paleta
 - --ap-charcoal: #0f1418 — superfícies suaves.
 - --ap-gold: #CBB67A — principal cor de destaque (CTAs, logotipo).
 - --ap-gold-deep: #A9893B — acento para contrastes.
-- --ap-gold-soft: rgba(203,182,122,0.12) — realces sutis.
+- --ap-gold-soft: rgba(203,182,122,0.12) — realces subtis.
 - --ap-muted: #9ea7b3 — texto secundário.
 
 Tipografia
@@ -21,13 +21,13 @@ Tipografia
 Logotipo
 - Fornecido em `logo.svg` (versão positiva sobre fundo escuro).
 - Mantê-lo com espaço livre mínimo igual à metade da altura do ícone.
-- Versões necessárias: full color (SVG), mono (branco), reversed (dourado sobre branco) — posso gerar se quiser.
+- Versões necessárias: full color (SVG), mono (branco), reversed (dourado sobre branco) — posso gerar se pretender.
 
 Aplicações
 - Web: usar `brand.css` (variáveis e utilitários). Botões primários em `--ap-gold`.
 - Impressão: preferir o `--ap-gold-deep` para garantir contraste em CMYK.
 
-Diretrizes rápidas
+Directrizes rápidas
 - Evitar fundos claros com dourado puro sem contorno; usar áreas escuras para contraste.
 - CTAs: dourado + texto escuro ou dourado sobre branco para secções claras.
 
@@ -36,4 +36,4 @@ Ficheiros incluídos
 - `logo.svg` — monograma e wordmark
 - `brand-preview.html` — demonstração rápida
 
-Se quiser, gero variações do logotipo (monograma isolado, versão horizontal, favicon) e ficheiros pronto-para-impressão (PDF/AI/SVG com margens de sangria).
+Se pretender, gero variações do logotipo (monograma isolado, versão horizontal, favicon) e ficheiros prontos para impressão (PDF/AI/SVG com margens de sangria).

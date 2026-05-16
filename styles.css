@@ -1,14 +1,16 @@
 :root {
   color-scheme: dark;
-  --bg: #04070f;
-  --surface: #0d1320;
-  --surface-soft: rgba(16, 25, 42, 0.75);
-  --text: #f8f9ff;
-  --muted: #9ba7c9;
-  --accent: #6f8cff;
-  --accent-soft: rgba(111, 140, 255, 0.18);
-  --border: rgba(255, 255, 255, 0.08);
-  --shadow: 0 30px 90px rgba(0, 0, 0, 0.25);
+  --bg: #070609;
+  --surface: #111719;
+  --surface-soft: rgba(12, 18, 18, 0.74);
+  --text: #f7f2e7;
+  --muted: #c4beb1;
+  --accent: #cbb67a;
+  --accent-deep: #a9893b;
+  --coastal: #7fa0a4;
+  --border: rgba(247, 242, 231, 0.14);
+  --shadow: 0 32px 100px rgba(0, 0, 0, 0.42);
+  --heading: 'Playfair Display', Georgia, serif;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
@@ -22,9 +24,7 @@ html {
 
 body {
   margin: 0;
-  background: radial-gradient(circle at top left, rgba(111, 140, 255, 0.18), transparent 25%),
-    radial-gradient(circle at bottom right, rgba(111, 255, 255, 0.1), transparent 22%),
-    var(--bg);
+  background: linear-gradient(180deg, #050506 0%, #0e1415 46%, #070609 100%);
   color: var(--text);
 }
 
@@ -53,9 +53,9 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 10;
-  backdrop-filter: blur(16px);
-  background: rgba(4, 7, 15, 0.9);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  background: rgba(7, 6, 9, 0.74);
+  border-bottom: 1px solid rgba(203, 182, 122, 0.16);
 }
 
 .header-inner,
@@ -73,9 +73,12 @@ textarea {
 }
 
 .logo {
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-family: var(--heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
 }
 
 .nav-links {
@@ -87,7 +90,7 @@ textarea {
 }
 
 .nav-links a:hover {
-  color: var(--text);
+  color: var(--accent);
 }
 
 .button {
@@ -96,10 +99,12 @@ textarea {
   justify-content: center;
   gap: 0.65rem;
   border: none;
-  border-radius: 999px;
+  border-radius: 8px;
   padding: 0.95rem 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .button:hover {
@@ -107,46 +112,78 @@ textarea {
 }
 
 .button-primary {
-  background: linear-gradient(135deg, #7a8dff, #5f70ff);
-  color: #fff;
-  box-shadow: 0 18px 35px rgba(111, 140, 255, 0.26);
+  background: linear-gradient(135deg, #e0cf95, var(--accent-deep));
+  color: #11100c;
+  box-shadow: 0 18px 38px rgba(169, 137, 59, 0.25);
 }
 
 .button-secondary {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(247, 242, 231, 0.08);
+  border: 1px solid rgba(203, 182, 122, 0.24);
   color: var(--text);
 }
 
 .hero {
-  padding: 5.5rem 0 3.5rem;
+  position: relative;
+  isolation: isolate;
+  min-height: 78svh;
+  padding: 7rem 0 4.5rem;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg, rgba(7, 6, 9, 0.94) 0%, rgba(7, 6, 9, 0.72) 48%, rgba(7, 6, 9, 0.36) 100%),
+    linear-gradient(180deg, rgba(7, 6, 9, 0.18) 0%, rgba(7, 6, 9, 0.74) 100%),
+    url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=82") center / cover;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  height: 38%;
+  background: linear-gradient(180deg, transparent, var(--bg));
 }
 
 .hero-grid {
   grid-template-columns: 1.2fr 0.9fr;
-  gap: 2rem;
+  gap: 3rem;
 }
 
 .hero-copy {
-  max-width: 620px;
+  max-width: 700px;
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #94a8dc;
-  font-size: 0.85rem;
+  color: var(--accent);
+  font-size: 0.78rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.22em;
 }
 
 .hero h1,
 .section-header h2,
 .contact-info h2 {
-  font-size: clamp(2.5rem, 4vw, 4rem);
-  line-height: 1.02;
+  font-family: var(--heading);
+  font-size: 5.8rem;
+  font-weight: 700;
+  line-height: 0.96;
   margin: 1rem 0 1.5rem;
+}
+
+.section-header h2,
+.contact-info h2 {
+  font-size: 3.7rem;
 }
 
 .hero p,
@@ -154,8 +191,14 @@ textarea {
 .service-card p,
 .contact-info p {
   color: var(--muted);
-  line-height: 1.85;
-  font-size: 1rem;
+  line-height: 1.78;
+  font-size: 1.03rem;
+}
+
+.hero-copy > p {
+  max-width: 620px;
+  color: #e3ded2;
+  font-size: 1.2rem;
 }
 
 .hero-actions {
@@ -166,11 +209,13 @@ textarea {
 }
 
 .hero-card {
-  background: linear-gradient(180deg, rgba(15, 23, 45, 0.96), rgba(10, 14, 28, 0.95));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 32px;
+  align-self: end;
+  background: linear-gradient(180deg, rgba(13, 18, 18, 0.88), rgba(7, 6, 9, 0.9));
+  border: 1px solid rgba(203, 182, 122, 0.24);
+  border-radius: 8px;
   padding: 2rem;
   box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
 }
 
 .hero-card-content {
@@ -181,65 +226,79 @@ textarea {
 .card-tag {
   display: inline-flex;
   padding: 0.55rem 0.9rem;
-  border-radius: 999px;
-  background: rgba(111, 140, 255, 0.14);
-  color: #98abff;
-  font-size: 0.82rem;
+  border-radius: 8px;
+  background: rgba(203, 182, 122, 0.13);
+  color: #ead9a5;
+  font-size: 0.74rem;
   font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   width: fit-content;
 }
 
 .hero-card h2 {
   margin: 0;
-  font-size: 1.6rem;
+  font-family: var(--heading);
+  font-size: 2rem;
+  line-height: 1.08;
 }
 
 .card-meta {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  color: var(--muted);
+  color: #e7dfcc;
   font-size: 0.95rem;
+  border-top: 1px solid rgba(203, 182, 122, 0.18);
+  padding-top: 1rem;
+}
+
+.card-meta span:last-child {
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .section-surface {
-  background: rgba(7, 13, 25, 0.95);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(13, 19, 19, 0.98), rgba(7, 6, 9, 0.98));
+  border-top: 1px solid rgba(203, 182, 122, 0.12);
+  border-bottom: 1px solid rgba(203, 182, 122, 0.1);
 }
 
 .section-header {
   text-align: center;
-  padding: 3rem 0 1.5rem;
+  padding: 4.5rem 0 2rem;
 }
 
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
-  padding-bottom: 3.5rem;
+  padding-bottom: 4.5rem;
 }
 
 .service-card {
   padding: 2rem;
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(247, 242, 231, 0.035);
+  border: 1px solid rgba(203, 182, 122, 0.14);
 }
 
 .service-card h3 {
+  color: #f2e5bd;
+  font-family: var(--heading);
   margin-top: 0;
   margin-bottom: 1rem;
-  font-size: 1.3rem;
+  font-size: 1.45rem;
 }
 
 .contact {
-  padding: 3.5rem 0 4rem;
+  padding: 4.5rem 0 5rem;
 }
 
 .dark-section {
-  background: radial-gradient(circle at top, rgba(111, 140, 255, 0.09), transparent 23%),
-    var(--bg);
+  background:
+    linear-gradient(135deg, rgba(127, 160, 164, 0.1), transparent 34%),
+    linear-gradient(180deg, #070609, #0d1314);
 }
 
 .contact-grid {
@@ -260,9 +319,9 @@ textarea {
 
 .contact-highlights div {
   padding: 1.3rem 1.4rem;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  background: rgba(247, 242, 231, 0.04);
+  border: 1px solid rgba(203, 182, 122, 0.13);
 }
 
 .contact-highlights strong {
@@ -274,32 +333,33 @@ textarea {
   display: grid;
   gap: 1rem;
   padding: 2rem;
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(247, 242, 231, 0.035);
+  border: 1px solid rgba(203, 182, 122, 0.15);
+  box-shadow: var(--shadow);
 }
 
 .contact-form label {
   display: grid;
   gap: 0.65rem;
   font-size: 0.95rem;
-  color: #d9e1ff;
+  color: #e7dfcc;
 }
 
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 18px;
+  background: rgba(7, 6, 9, 0.44);
+  border: 1px solid rgba(247, 242, 231, 0.14);
+  border-radius: 8px;
   color: var(--text);
   padding: 1rem 1.1rem;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  outline: 1px solid rgba(111, 140, 255, 0.6);
-  box-shadow: 0 0 0 4px rgba(111, 140, 255, 0.12);
+  outline: 1px solid rgba(203, 182, 122, 0.72);
+  box-shadow: 0 0 0 4px rgba(203, 182, 122, 0.12);
 }
 
 .site-footer {
@@ -320,7 +380,7 @@ textarea {
 }
 
 .footer-links a:hover {
-  color: var(--text);
+  color: var(--accent);
 }
 
 @media (max-width: 880px) {
@@ -342,7 +402,17 @@ textarea {
   }
 
   .hero {
-    padding-top: 4rem;
+    min-height: auto;
+    padding: 5rem 0 3rem;
+  }
+
+  .hero h1 {
+    font-size: 4.1rem;
+  }
+
+  .section-header h2,
+  .contact-info h2 {
+    font-size: 3.1rem;
   }
 }
 
@@ -350,7 +420,7 @@ textarea {
   .hero h1,
   .section-header h2,
   .contact-info h2 {
-    font-size: 2.5rem;
+    font-size: 2.65rem;
   }
 
   .button {
