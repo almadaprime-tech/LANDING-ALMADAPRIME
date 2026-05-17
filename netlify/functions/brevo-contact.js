@@ -1,5 +1,14 @@
 const BREVO_CONTACTS_ENDPOINT = "https://api.brevo.com/v3/contacts";
 
+const jsonResponse = (statusCode, body, headers = {}) => ({
+  statusCode,
+  headers: {
+    "content-type": "application/json",
+    ...headers
+  },
+  body: JSON.stringify(body)
+});
+
 const parseListIds = (value) => {
   if (!value) {
     return [];
@@ -48,23 +57,26 @@ const buildAttributes = ({ nome, telefone, mensagem }) => {
   return attributes;
 };
 
-module.exports = async function handler(req, res) {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ error: "Method not allowed" });
+exports.handler = async (event) => {
+  if (event.httpMethod !== "POST") {
+    return jsonResponse(
+      405,
+      { error: "Method not allowed" },
+      { allow: "POST" }
+    );
   }
 
   const apiKey = process.env.BREVO_API_KEY;
 
   if (!apiKey) {
-    return res.status(500).json({ error: "Brevo API key is not configured" });
+    return jsonResponse(500, { error: "Brevo API key is not configured" });
   }
 
-  const { nome = "", email = "", telefone = "", mensagem = "" } = parseBody(req.body);
+  const { nome = "", email = "", telefone = "", mensagem = "" } = parseBody(event.body);
   const trimmedEmail = String(email).trim();
 
   if (!trimmedEmail) {
-    return res.status(400).json({ error: "Email is required" });
+    return jsonResponse(400, { error: "Email is required" });
   }
 
   const payload = {
@@ -95,11 +107,11 @@ module.exports = async function handler(req, res) {
     });
 
     if (!brevoResponse.ok) {
-      return res.status(502).json({ error: "Brevo request failed" });
+      return jsonResponse(502, { error: "Brevo request failed" });
     }
 
-    return res.status(200).json({ success: true });
+    return jsonResponse(200, { success: true });
   } catch (error) {
-    return res.status(502).json({ error: "Unable to contact Brevo" });
+    return jsonResponse(502, { error: "Unable to contact Brevo" });
   }
 };
