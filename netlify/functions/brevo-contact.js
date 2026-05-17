@@ -118,5 +118,5 @@ exports.handler = async (event) => {
     return jsonResponse(200, { success: true });
   } catch (error) {
     return jsonResponse(502, { error: "Unable to contact Brevo" });
-  }
+  }.
 };
