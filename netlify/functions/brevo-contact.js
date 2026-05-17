@@ -1,122 +1,191 @@
-const BREVO_CONTACTS_ENDPOINT = "https://api.brevo.com/v3/contacts";
+var https = require("https");
 
-const jsonResponse = (statusCode, body, headers = {}) => ({
-  statusCode,
-  headers: {
-    "content-type": "application/json",
-    ...headers
-  },
-  body: JSON.stringify(body)
-});
+var BREVO_CONTACTS_HOST = "api.brevo.com";
+var BREVO_CONTACTS_PATH = "/v3/contacts";
 
-const parseListIds = (value) => {
-  if (!value) {
-    return [];
-  }
+function response(statusCode, payload, headers) {
+  return {
+    statusCode: statusCode,
+    headers: Object.assign(
+      {
+        "Content-Type": "application/json"
+      },
+      headers || {}
+    ),
+    body: JSON.stringify(payload)
+  };
+}
 
-  return value
-    .split(",")
-    .map((item) => Number(item.trim()))
-    .filter((item) => Number.isInteger(item) && item > 0);
-};
-
-const parseBody = (body) => {
+function parseJsonBody(body) {
   if (!body) {
     return {};
   }
 
-  if (typeof body === "string") {
-    try {
-      return JSON.parse(body);
-    } catch (error) {
-      return {};
-    }
+  try {
+    return JSON.parse(body);
+  } catch (error) {
+    console.log("[brevo-contact] Invalid JSON body:", error.message);
+    return {};
+  }
+}
+
+function cleanString(value) {
+  return String(value || "").trim();
+}
+
+function parseListIds(value) {
+  return cleanString(value)
+    .split(",")
+    .map(function (item) {
+      return Number(item.trim());
+    })
+    .filter(function (item) {
+      return Number.isInteger(item) && item > 0;
+    });
+}
+
+function buildAttributes(data) {
+  var attributes = {};
+  var nameAttribute = process.env.BREVO_NAME_ATTRIBUTE || "NOME";
+  var phoneAttribute = process.env.BREVO_PHONE_ATTRIBUTE || "TELEFONE";
+  var messageAttribute = process.env.BREVO_MESSAGE_ATTRIBUTE || "MESSAGE";
+
+  if (data.nome) {
+    attributes[nameAttribute] = data.nome;
   }
 
-  return body;
-};
-
-const buildAttributes = ({ nome, telefone, mensagem }) => {
-  const attributes = {};
-  const nameAttribute = process.env.BREVO_NAME_ATTRIBUTE || "NOME";
-  const phoneAttribute = process.env.BREVO_PHONE_ATTRIBUTE || "TELEFONE";
-  const messageAttribute = process.env.BREVO_MESSAGE_ATTRIBUTE || "MESSAGE";
-
-  if (nome && nameAttribute) {
-    attributes[nameAttribute] = nome;
+  if (data.telefone) {
+    attributes[phoneAttribute] = data.telefone;
   }
 
-  if (telefone && phoneAttribute) {
-    attributes[phoneAttribute] = telefone;
-  }
-
-  if (mensagem && messageAttribute) {
-    attributes[messageAttribute] = mensagem;
+  if (data.mensagem) {
+    attributes[messageAttribute] = data.mensagem;
   }
 
   return attributes;
-};
+}
 
-exports.handler = async (event) => {
-  if (event.httpMethod !== "POST") {
-    return jsonResponse(
-      405,
-      { error: "Method not allowed" },
-      { allow: "POST" }
-    );
-  }
-
-  const apiKey = process.env.BREVO_API_KEY;
-  console.log("[brevo-contact] BREVO_API_KEY exists:", Boolean(apiKey));
-
-  if (!apiKey) {
-    return jsonResponse(500, { error: "Brevo API key is not configured" });
-  }
-
-  const { nome = "", email = "", telefone = "", mensagem = "" } = parseBody(event.body);
-  const trimmedEmail = String(email).trim();
-
-  if (!trimmedEmail) {
-    return jsonResponse(400, { error: "Email is required" });
-  }
-
-  const payload = {
-    email: trimmedEmail,
+function buildBrevoPayload(data) {
+  var payload = {
+    email: data.email,
     updateEnabled: true,
     attributes: buildAttributes({
-      nome: String(nome).trim(),
-      telefone: String(telefone).trim(),
-      mensagem: String(mensagem).trim()
+      nome: data.nome,
+      telefone: data.telefone,
+      mensagem: data.mensagem
     })
   };
-
-  const listIds = parseListIds(process.env.BREVO_LIST_IDS);
+  var listIds = parseListIds(process.env.BREVO_LIST_IDS);
 
   if (listIds.length > 0) {
     payload.listIds = listIds;
   }
 
-  try {
-    const brevoResponse = await fetch(BREVO_CONTACTS_ENDPOINT, {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "api-key": apiKey,
-        "content-type": "application/json"
-      },
-      body: JSON.stringify(payload)
+  return payload;
+}
+
+function sendBrevoRequest(apiKey, payload) {
+  var requestBody = JSON.stringify(payload);
+  var requestOptions = {
+    hostname: BREVO_CONTACTS_HOST,
+    path: BREVO_CONTACTS_PATH,
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "api-key": apiKey,
+      "content-type": "application/json",
+      "content-length": Buffer.byteLength(requestBody)
+    }
+  };
+
+  return new Promise(function (resolve, reject) {
+    var request = https.request(requestOptions, function (brevoResponse) {
+      var responseBody = "";
+
+      brevoResponse.setEncoding("utf8");
+
+      brevoResponse.on("data", function (chunk) {
+        responseBody += chunk;
+      });
+
+      brevoResponse.on("end", function () {
+        resolve({
+          statusCode: brevoResponse.statusCode,
+          body: responseBody
+        });
+      });
     });
-    const brevoResponseText = await brevoResponse.text();
 
-    console.log("[brevo-contact] Brevo response status:", brevoResponse.status);
-    console.log("[brevo-contact] Brevo response text:", brevoResponseText);
+    request.on("error", function (error) {
+      reject(error);
+    });
 
-    if (!brevoResponse.ok) {
-      return jsonResponse(502, { error: "Brevo request failed" });
+    request.write(requestBody);
+    request.end();
+  });
+}
+
+exports.handler = async function (event) {
+  console.log("[brevo-contact] Request method:", event.httpMethod);
+
+  if (event.httpMethod !== "POST") {
+    return response(
+      405,
+      { error: "Method not allowed" },
+      { Allow: "POST" }
+    );
+  }
+
+  var apiKey = process.env.BREVO_API_KEY;
+  console.log("[brevo-contact] BREVO_API_KEY exists:", Boolean(apiKey));
+
+  if (!apiKey) {
+    return response(500, { error: "Brevo API key is not configured" });
+  }
+
+  var body = parseJsonBody(event.body);
+  var nome = cleanString(body.nome);
+  var email = cleanString(body.email);
+  var telefone = cleanString(body.telefone);
+  var mensagem = cleanString(body.mensagem);
+  var listIds = parseListIds(process.env.BREVO_LIST_IDS);
+
+  console.log("[brevo-contact] Payload fields:", {
+    hasNome: Boolean(nome),
+    hasEmail: Boolean(email),
+    hasTelefone: Boolean(telefone),
+    hasMensagem: Boolean(mensagem),
+    listIds: listIds
+  });
+
+  if (!email) {
+    return response(400, { error: "Email is required" });
+  }
+
+  var brevoPayload = buildBrevoPayload({
+    nome: nome,
+    email: email,
+    telefone: telefone,
+    mensagem: mensagem
+  });
+
+  try {
+    var brevoResult = await sendBrevoRequest(apiKey, brevoPayload);
+
+    console.log("[brevo-contact] Brevo response status:", brevoResult.statusCode);
+    console.log("[brevo-contact] Brevo response text:", brevoResult.body);
+
+    if (brevoResult.statusCode < 200 || brevoResult.statusCode >= 300) {
+      return response(502, {
+        error: "Brevo request failed",
+        brevoStatus: brevoResult.statusCode
+      });
     }
 
-    return jsonResponse(200, { success: true });
+    return response(200, { success: true });
   } catch (error) {
-    return jsonResponse(502, { error: "Unable to contact Brevo" });
-  }.
+    console.log("[brevo-contact] Brevo request error:", error.message);
+
+    return response(502, { error: "Unable to contact Brevo" });
+  }
 };
