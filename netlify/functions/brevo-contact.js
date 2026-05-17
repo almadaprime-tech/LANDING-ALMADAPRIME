@@ -67,6 +67,7 @@ exports.handler = async (event) => {
   }
 
   const apiKey = process.env.BREVO_API_KEY;
+  console.log("[brevo-contact] BREVO_API_KEY exists:", Boolean(apiKey));
 
   if (!apiKey) {
     return jsonResponse(500, { error: "Brevo API key is not configured" });
@@ -105,6 +106,10 @@ exports.handler = async (event) => {
       },
       body: JSON.stringify(payload)
     });
+    const brevoResponseText = await brevoResponse.text();
+
+    console.log("[brevo-contact] Brevo response status:", brevoResponse.status);
+    console.log("[brevo-contact] Brevo response text:", brevoResponseText);
 
     if (!brevoResponse.ok) {
       return jsonResponse(502, { error: "Brevo request failed" });
