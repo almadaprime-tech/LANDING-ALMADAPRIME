@@ -64,27 +64,14 @@ exports.handler = async function (event) {
     };
   }
 
-  var brevoPayload = {
-    email: email,
-    updateEnabled: true,
-    attributes: {
-      NOME: nome,
-      TELEFONE: telefone,
-      MESSAGE: mensagem
-    }
-  };
+var brevoPayload = {
+  email: email,
+  updateEnabled: true
+};
 
-  if (process.env.BREVO_LIST_IDS) {
-    brevoPayload.listIds = process.env.BREVO_LIST_IDS
-      .split(",")
-      .map(function (listId) {
-        return Number(listId.trim());
-      })
-      .filter(function (listId) {
-        return Number.isInteger(listId) && listId > 0;
-      });
-  }
-
+if (process.env.BREVO_LIST_ID) {
+  brevoPayload.listIds = [Number(process.env.BREVO_LIST_ID)];
+}
   console.log("[brevo-contact] Brevo payload:", brevoPayload);
 
   try {
