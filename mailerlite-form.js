@@ -1,5 +1,5 @@
 (function () {
-  const form = document.querySelector("[data-brevo-form]");
+  const form = document.querySelector("[data-mailerlite-form]");
 
   if (!form) {
     return;
