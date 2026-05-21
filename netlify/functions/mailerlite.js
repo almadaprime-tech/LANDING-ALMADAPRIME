@@ -8,14 +8,15 @@ exports.handler = async function (event) {
         Authorization: `Bearer ${process.env.MAILERLITE_API_KEY}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        email: email,
-        fields: {
-          nome: nome,
-          telefone: telefone,
-          mensagem: mensagem
-        }
-      })
+   body: JSON.stringify({
+  email: email,
+
+  fields: {
+    nome: nome,
+    telefone: telefone,
+    mensagem: mensagem
+  }
+})
     });
 
     const data = await response.text();
