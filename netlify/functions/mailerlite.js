@@ -20,7 +20,8 @@ exports.handler = async function (event) {
     });
 
     const data = await response.text();
-
+console.log("MAILERLITE RESPONSE:", data);
+console.log("STATUS:", response.status);
     if (!response.ok) {
       return {
         statusCode: 500,
